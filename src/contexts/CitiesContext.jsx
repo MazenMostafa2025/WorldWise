@@ -1,5 +1,11 @@
 /* eslint-disable react/prop-types */
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  useCallback,
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+} from "react";
 
 const CitiesContext = createContext();
 
@@ -24,18 +30,22 @@ function CitiesProvider({ children }) {
     fetchCities();
   }, []);
 
-  async function getCity(id) {
-    setIsLoading(true);
-    try {
-      const res = await fetch(`http://localhost:9000/cities/${id}`);
-      const data = await res.json();
-      setCurrentCity(data);
-    } catch {
-      alert("there was an error fetching data");
-    } finally {
-      setIsLoading(false);
-    }
-  }
+  const getCity = useCallback(
+    async function getCity(id) {
+      if (Number(id) === currentCity.id) return;
+      setIsLoading(true);
+      try {
+        const res = await fetch(`http://localhost:9000/cities/${id}`);
+        const data = await res.json();
+        setCurrentCity(data);
+      } catch {
+        alert("there was an error fetching data");
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [currentCity.id]
+  );
   async function createCity(newCity) {
     setIsLoading(true);
     try {
