@@ -43,4 +43,4 @@ Ensure you have the following installed:
    Open another terminal and run this command:
    npm run dev
 7. **View Project**
-    Open the project in your web browser at http://localhost:3000
+    Open the project in your web browser at http://localhost:5173
